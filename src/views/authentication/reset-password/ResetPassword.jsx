@@ -34,9 +34,12 @@ const ResetPassword = () => {
                       autoComplete="email"
                     />
                   </div>
-                  <div className="d-grid">
-                    <CButton color="primary" type="submit">
+                  <div className="d-grid gap-2">
+                    <CButton color="success" size="lg" type="submit">
                       Send reset instructions
+                    </CButton>
+                    <CButton color="link" className="text-body-secondary">
+                      Back to sign in
                     </CButton>
                   </div>
                 </CForm>
