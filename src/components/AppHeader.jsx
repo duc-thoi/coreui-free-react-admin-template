@@ -168,6 +168,17 @@ const AppHeader = () => {
           <li className="nav-item py-1">
             <div className="vr h-100 mx-2 text-body text-opacity-75"></div>
           </li>
+          <li className="nav-item py-1">
+            <button
+              type="button"
+              className="btn btn-link nav-link"
+              aria-label="Toggle dark mode"
+              title="Toggle dark mode"
+              onClick={() => setColorMode(colorMode === 'dark' ? 'light' : 'dark')}
+            >
+              <CIcon icon={colorMode === 'dark' ? cilSun : cilMoon} size="lg" />
+            </button>
+          </li>
           <CDropdown variant="nav-item" placement="bottom-end">
             <CDropdownToggle caret={false}>
               {colorMode === 'dark' ? (
