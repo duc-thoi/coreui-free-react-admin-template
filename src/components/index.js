@@ -4,6 +4,7 @@ import AppFooter from './AppFooter'
 import AppHeader from './AppHeader'
 import AppHeaderDropdown from './header/AppHeaderDropdown'
 import AppSidebar from './AppSidebar'
+import CopyLinkButton from './CopyLinkButton'
 import DocsComponents from './DocsComponents'
 import DocsIcons from './DocsIcons'
 import DocsLink from './DocsLink'
@@ -16,6 +17,7 @@ export {
   AppHeader,
   AppHeaderDropdown,
   AppSidebar,
+  CopyLinkButton,
   DocsComponents,
   DocsIcons,
   DocsLink,
