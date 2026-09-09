@@ -222,3 +222,5 @@ const AppHeader = () => {
 }
 
 export default AppHeader
+
+// keyboard shortcut: focus search
