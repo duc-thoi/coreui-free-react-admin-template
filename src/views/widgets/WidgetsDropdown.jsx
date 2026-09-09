@@ -15,6 +15,27 @@ import { CChartBar, CChartLine } from '@coreui/react-chartjs'
 import CIcon from '@coreui/icons-react'
 import { cilArrowBottom, cilArrowTop, cilOptions } from '@coreui/icons'
 
+import { CopyLinkButton } from 'src/components'
+
+// Builds a shareable link to a specific widget. The app uses HashRouter, so the
+// widget marker is kept inside the hash (as a query param) to avoid a second '#'.
+const widgetLink = (key) =>
+  `${window.location.origin}${window.location.pathname}#/dashboard?widget=${key}`
+
+// Footer appended inside the CWidgetStatsA `chart` slot. CWidgetStatsA has no
+// footer prop and ignores children, so the chart slot (rendered last in the
+// card) is where we place the Copy link row.
+const WidgetFooter = ({ widgetKey, describe }) => (
+  <div className="px-3 py-2 d-flex justify-content-end">
+    <CopyLinkButton link={widgetLink(widgetKey)} describe={describe} />
+  </div>
+)
+
+WidgetFooter.propTypes = {
+  widgetKey: PropTypes.string.isRequired,
+  describe: PropTypes.string.isRequired,
+}
+
 const WidgetsDropdown = (props) => {
   const widgetChartRef1 = useRef(null)
   const widgetChartRef2 = useRef(null)
@@ -65,67 +86,70 @@ const WidgetsDropdown = (props) => {
             </CDropdown>
           }
           chart={
-            <CChartLine
-              ref={widgetChartRef1}
-              className="mt-3 mx-3"
-              style={{ height: '70px' }}
-              data={{
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                datasets: [
-                  {
-                    label: 'My First dataset',
-                    backgroundColor: 'transparent',
-                    borderColor: 'rgba(255,255,255,.55)',
-                    pointBackgroundColor: getStyle('--cui-primary'),
-                    data: [65, 59, 84, 84, 51, 55, 40],
-                  },
-                ],
-              }}
-              options={{
-                plugins: {
-                  legend: {
-                    display: false,
-                  },
-                },
-                maintainAspectRatio: false,
-                scales: {
-                  x: {
-                    border: {
-                      display: false,
+            <>
+              <CChartLine
+                ref={widgetChartRef1}
+                className="mt-3 mx-3"
+                style={{ height: '70px' }}
+                data={{
+                  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                  datasets: [
+                    {
+                      label: 'My First dataset',
+                      backgroundColor: 'transparent',
+                      borderColor: 'rgba(255,255,255,.55)',
+                      pointBackgroundColor: getStyle('--cui-primary'),
+                      data: [65, 59, 84, 84, 51, 55, 40],
                     },
-                    grid: {
-                      display: false,
-                      drawBorder: false,
-                    },
-                    ticks: {
+                  ],
+                }}
+                options={{
+                  plugins: {
+                    legend: {
                       display: false,
                     },
                   },
-                  y: {
-                    min: 30,
-                    max: 89,
-                    display: false,
-                    grid: {
-                      display: false,
+                  maintainAspectRatio: false,
+                  scales: {
+                    x: {
+                      border: {
+                        display: false,
+                      },
+                      grid: {
+                        display: false,
+                        drawBorder: false,
+                      },
+                      ticks: {
+                        display: false,
+                      },
                     },
-                    ticks: {
+                    y: {
+                      min: 30,
+                      max: 89,
                       display: false,
+                      grid: {
+                        display: false,
+                      },
+                      ticks: {
+                        display: false,
+                      },
                     },
                   },
-                },
-                elements: {
-                  line: {
-                    borderWidth: 1,
-                    tension: 0.4,
+                  elements: {
+                    line: {
+                      borderWidth: 1,
+                      tension: 0.4,
+                    },
+                    point: {
+                      radius: 4,
+                      hitRadius: 10,
+                      hoverRadius: 4,
+                    },
                   },
-                  point: {
-                    radius: 4,
-                    hitRadius: 10,
-                    hoverRadius: 4,
-                  },
-                },
-              }}
-            />
+                }}
+              />
+              <WidgetFooter widgetKey="users" describe="Users widget" />
+            </>
           }
         />
       </CCol>
@@ -155,66 +179,69 @@ const WidgetsDropdown = (props) => {
             </CDropdown>
           }
           chart={
-            <CChartLine
-              ref={widgetChartRef2}
-              className="mt-3 mx-3"
-              style={{ height: '70px' }}
-              data={{
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                datasets: [
-                  {
-                    label: 'My First dataset',
-                    backgroundColor: 'transparent',
-                    borderColor: 'rgba(255,255,255,.55)',
-                    pointBackgroundColor: getStyle('--cui-info'),
-                    data: [1, 18, 9, 17, 34, 22, 11],
-                  },
-                ],
-              }}
-              options={{
-                plugins: {
-                  legend: {
-                    display: false,
-                  },
-                },
-                maintainAspectRatio: false,
-                scales: {
-                  x: {
-                    border: {
-                      display: false,
+            <>
+              <CChartLine
+                ref={widgetChartRef2}
+                className="mt-3 mx-3"
+                style={{ height: '70px' }}
+                data={{
+                  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                  datasets: [
+                    {
+                      label: 'My First dataset',
+                      backgroundColor: 'transparent',
+                      borderColor: 'rgba(255,255,255,.55)',
+                      pointBackgroundColor: getStyle('--cui-info'),
+                      data: [1, 18, 9, 17, 34, 22, 11],
                     },
-                    grid: {
-                      display: false,
-                      drawBorder: false,
-                    },
-                    ticks: {
+                  ],
+                }}
+                options={{
+                  plugins: {
+                    legend: {
                       display: false,
                     },
                   },
-                  y: {
-                    min: -9,
-                    max: 39,
-                    display: false,
-                    grid: {
-                      display: false,
+                  maintainAspectRatio: false,
+                  scales: {
+                    x: {
+                      border: {
+                        display: false,
+                      },
+                      grid: {
+                        display: false,
+                        drawBorder: false,
+                      },
+                      ticks: {
+                        display: false,
+                      },
                     },
-                    ticks: {
+                    y: {
+                      min: -9,
+                      max: 39,
                       display: false,
+                      grid: {
+                        display: false,
+                      },
+                      ticks: {
+                        display: false,
+                      },
                     },
                   },
-                },
-                elements: {
-                  line: {
-                    borderWidth: 1,
+                  elements: {
+                    line: {
+                      borderWidth: 1,
+                    },
+                    point: {
+                      radius: 4,
+                      hitRadius: 10,
+                      hoverRadius: 4,
+                    },
                   },
-                  point: {
-                    radius: 4,
-                    hitRadius: 10,
-                    hoverRadius: 4,
-                  },
-                },
-              }}
-            />
+                }}
+              />
+              <WidgetFooter widgetKey="income" describe="Income widget" />
+            </>
           }
         />
       </CCol>
@@ -244,49 +271,52 @@ const WidgetsDropdown = (props) => {
             </CDropdown>
           }
           chart={
-            <CChartLine
-              className="mt-3"
-              style={{ height: '70px' }}
-              data={{
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                datasets: [
-                  {
-                    label: 'My First dataset',
-                    backgroundColor: 'rgba(255,255,255,.2)',
-                    borderColor: 'rgba(255,255,255,.55)',
-                    data: [78, 81, 80, 45, 34, 12, 40],
-                    fill: true,
+            <>
+              <CChartLine
+                className="mt-3"
+                style={{ height: '70px' }}
+                data={{
+                  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                  datasets: [
+                    {
+                      label: 'My First dataset',
+                      backgroundColor: 'rgba(255,255,255,.2)',
+                      borderColor: 'rgba(255,255,255,.55)',
+                      data: [78, 81, 80, 45, 34, 12, 40],
+                      fill: true,
+                    },
+                  ],
+                }}
+                options={{
+                  plugins: {
+                    legend: {
+                      display: false,
+                    },
                   },
-                ],
-              }}
-              options={{
-                plugins: {
-                  legend: {
-                    display: false,
+                  maintainAspectRatio: false,
+                  scales: {
+                    x: {
+                      display: false,
+                    },
+                    y: {
+                      display: false,
+                    },
                   },
-                },
-                maintainAspectRatio: false,
-                scales: {
-                  x: {
-                    display: false,
+                  elements: {
+                    line: {
+                      borderWidth: 2,
+                      tension: 0.4,
+                    },
+                    point: {
+                      radius: 0,
+                      hitRadius: 10,
+                      hoverRadius: 4,
+                    },
                   },
-                  y: {
-                    display: false,
-                  },
-                },
-                elements: {
-                  line: {
-                    borderWidth: 2,
-                    tension: 0.4,
-                  },
-                  point: {
-                    radius: 0,
-                    hitRadius: 10,
-                    hoverRadius: 4,
-                  },
-                },
-              }}
-            />
+                }}
+              />
+              <WidgetFooter widgetKey="conversion" describe="Conversion Rate widget" />
+            </>
           }
         />
       </CCol>
@@ -316,71 +346,74 @@ const WidgetsDropdown = (props) => {
             </CDropdown>
           }
           chart={
-            <CChartBar
-              className="mt-3 mx-3"
-              style={{ height: '70px' }}
-              data={{
-                labels: [
-                  'January',
-                  'February',
-                  'March',
-                  'April',
-                  'May',
-                  'June',
-                  'July',
-                  'August',
-                  'September',
-                  'October',
-                  'November',
-                  'December',
-                  'January',
-                  'February',
-                  'March',
-                  'April',
-                ],
-                datasets: [
-                  {
-                    label: 'My First dataset',
-                    backgroundColor: 'rgba(255,255,255,.2)',
-                    borderColor: 'rgba(255,255,255,.55)',
-                    data: [78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84, 67, 82],
-                    barPercentage: 0.6,
-                  },
-                ],
-              }}
-              options={{
-                maintainAspectRatio: false,
-                plugins: {
-                  legend: {
-                    display: false,
-                  },
-                },
-                scales: {
-                  x: {
-                    grid: {
-                      display: false,
-                      drawTicks: false,
+            <>
+              <CChartBar
+                className="mt-3 mx-3"
+                style={{ height: '70px' }}
+                data={{
+                  labels: [
+                    'January',
+                    'February',
+                    'March',
+                    'April',
+                    'May',
+                    'June',
+                    'July',
+                    'August',
+                    'September',
+                    'October',
+                    'November',
+                    'December',
+                    'January',
+                    'February',
+                    'March',
+                    'April',
+                  ],
+                  datasets: [
+                    {
+                      label: 'My First dataset',
+                      backgroundColor: 'rgba(255,255,255,.2)',
+                      borderColor: 'rgba(255,255,255,.55)',
+                      data: [78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84, 67, 82],
+                      barPercentage: 0.6,
                     },
-                    ticks: {
+                  ],
+                }}
+                options={{
+                  maintainAspectRatio: false,
+                  plugins: {
+                    legend: {
                       display: false,
                     },
                   },
-                  y: {
-                    border: {
-                      display: false,
+                  scales: {
+                    x: {
+                      grid: {
+                        display: false,
+                        drawTicks: false,
+                      },
+                      ticks: {
+                        display: false,
+                      },
                     },
-                    grid: {
-                      display: false,
-                      drawBorder: false,
-                      drawTicks: false,
-                    },
-                    ticks: {
-                      display: false,
+                    y: {
+                      border: {
+                        display: false,
+                      },
+                      grid: {
+                        display: false,
+                        drawBorder: false,
+                        drawTicks: false,
+                      },
+                      ticks: {
+                        display: false,
+                      },
                     },
                   },
-                },
-              }}
-            />
+                }}
+              />
+              <WidgetFooter widgetKey="sessions" describe="Sessions widget" />
+            </>
           }
         />
       </CCol>
